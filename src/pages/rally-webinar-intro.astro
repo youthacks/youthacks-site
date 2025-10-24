@@ -7,9 +7,25 @@ function shouldRedirectNow(now = new Date()) {
   const wd = now.getUTCDay(); // 4 = Thursday
   const h = now.getUTCHours();
 
-  const isTargetDate = y === 2025 && m === 9 && d === 30 && wd === 4;
-  const inWindow = h >= 13 && h < 16; // 13:00 ≤ t < 16:00 GMT
-  return isTargetDate && inWindow;
+  const isTargetTime = () => {
+  const now = new Date();
+  const y = now.getUTCFullYear();
+  const m = now.getUTCMonth();
+  const d = now.getUTCDate();
+  const wd = now.getUTCDay();
+  const h = now.getUTCHours();
+  const min = now.getUTCMinutes();
+
+  // Option 1: Thursday, 30 Oct 2025, 13:00–16:00 GMT
+  const isMainDate = y === 2025 && m === 9 && d === 30 && wd === 4 && h >= 13 && h < 16;
+
+  // Option 2: 24 Oct 2025, 18:00–18:15 BST (BST = GMT+1, so 17:00–17:15 UTC)
+  const isAltDate =
+    y === 2025 && m === 9 && d === 24 &&
+    ((h === 17 && min >= 0) || (h === 17 && min < 15));
+
+  return isMainDate || isAltDate;
+};
 }
 
 
