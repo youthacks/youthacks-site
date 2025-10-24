@@ -22,7 +22,7 @@ function shouldRedirectNow(now = new Date()) {
   // Option 2: 24 Oct 2025, 18:00–18:15 BST (BST = GMT+1, so 17:00–17:15 UTC)
   const isAltDate =
     y === 2025 && m === 9 && d === 24 &&
-    ((h === 17 && min >= 0) || (h === 17 && min < 15));
+    ((h === 17 && min >= 0) || (h === 18 && min < 15));
 
   return isMainDate || isAltDate;
 };
