@@ -1,0 +1,38 @@
+---
+import { Astro } from "astro";
+
+
+function shouldRedirectNow(now = new Date()) {
+  const y = now.getUTCFullYear();
+  const m = now.getUTCMonth(); // 0 = Jan → 9 = Oct
+  const d = now.getUTCDate();
+  const wd = now.getUTCDay(); // 4 = Thursday
+  const h = now.getUTCHours();
+
+  const isTargetDate = y === 2025 && m === 9 && d === 30 && wd === 4;
+  const inWindow = h >= 13 && h < 16; // 13:00 ≤ t < 16:00 GMT
+  return isTargetDate && inWindow;
+}
+
+if (shouldRedirectNow()) {
+  return Astro.redirect(targetUrl);
+}
+
+return Astro.response(
+  `<!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <title>Join Link</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+      <script>
+        alert("The join link is only active on Thursday, 30 October 2025 from 13:00–16:00 GMT.");
+        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+      </script>
+    </body>
+  </html>`,
+  { headers: { "Content-Type": "text/html" } }
+);
+---
